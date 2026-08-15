@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#171717" />
-  <title>Your Name Day Wrapped ♡</title>
+  <meta name="theme-color" content="#0b0909" />
+  <title>Your Name Day Wrapped</title>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
 
     :root{
-      --black:#0c0c0c;
-      --white:#ffffff;
-      --cream:#fff6ec;
-      --spotify:#1ed760;
-      --pink:#ff6da8;
-      --hot:#ff3f78;
-      --purple:#7d4dff;
-      --yellow:#ffd541;
-      --orange:#ff7a39;
+      --bg:#0b0909;
+      --panel:#141010;
+      --panel2:#191313;
+      --text:#f4eee9;
+      --muted:#aa9f98;
+      --line:rgba(255,255,255,.08);
+      --wine:#5a1d2a;
+      --wine2:#7a2638;
+      --cream:#e8d8c8;
+      --green:#1db954;
     }
 
     *{
@@ -28,18 +29,17 @@
       -webkit-tap-highlight-color:transparent;
     }
 
-    html,body{
-      width:100%;
-      min-height:100%;
-      background:#000;
-      color:white;
-      font-family:"DM Sans",sans-serif;
-      overflow:hidden;
-      overscroll-behavior:none;
+    html{
+      scroll-behavior:smooth;
     }
 
-    button{
-      font:inherit;
+    body{
+      background:
+        radial-gradient(circle at 20% 0%, rgba(122,38,56,.12), transparent 32%),
+        linear-gradient(180deg,#0a0808,#0d0a0a 55%,#080707);
+      color:var(--text);
+      font-family:"DM Sans",sans-serif;
+      overflow-x:hidden;
     }
 
     img{
@@ -47,641 +47,623 @@
       display:block;
     }
 
-    /* ==============================
-       INTRO
-    ============================== */
-
-    #intro{
-      position:fixed;
-      inset:0;
-      z-index:10000;
-      background:
-        linear-gradient(to top, rgba(0,0,0,.96), rgba(0,0,0,.16) 68%),
-        url("IMG_2384.jpeg") center/cover no-repeat;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      padding:28px 20px max(34px,env(safe-area-inset-bottom));
-      transition:opacity .8s ease, visibility .8s ease;
+    button{
+      font:inherit;
     }
 
-    #intro.hide{
-      opacity:0;
-      visibility:hidden;
+    .wrap{
+      max-width:780px;
+      margin:auto;
     }
 
-    .spotify-mark{
-      width:42px;
-      height:42px;
-      border-radius:50%;
-      background:var(--spotify);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      margin-bottom:20px;
-      box-shadow:0 10px 35px rgba(30,215,96,.25);
-    }
-
-    .spotify-mark::before{
-      content:"♪";
-      color:black;
-      font-size:24px;
-      font-weight:900;
-    }
-
-    .intro-kicker{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:3px;
-      font-weight:800;
-      color:#b7b7b7;
-    }
-
-    .intro-title{
-      margin-top:10px;
-      font-weight:800;
-      font-size:clamp(48px,14vw,82px);
-      line-height:.87;
-      letter-spacing:-4px;
-    }
-
-    .intro-title span{
-      color:var(--spotify);
-    }
-
-    .intro-copy{
-      margin-top:20px;
-      max-width:540px;
-      line-height:1.55;
-      color:#e6e6e6;
-      font-size:14px;
-    }
-
-    .start-btn{
-      width:100%;
-      margin-top:25px;
-      border:0;
-      border-radius:999px;
-      padding:17px 18px;
-      background:var(--spotify);
-      color:#07130b;
-      font-weight:900;
-      font-size:14px;
-      cursor:pointer;
-      box-shadow:0 14px 40px rgba(30,215,96,.26);
-    }
-
-    .sound-note{
-      margin-top:10px;
-      text-align:center;
-      color:#8f8f8f;
-      font-size:10px;
-    }
-
-    /* ==============================
-       APP
-    ============================== */
-
-    #app{
-      position:fixed;
-      inset:0;
-      background:#000;
-    }
-
-    #progress{
-      position:fixed;
-      z-index:500;
-      top:max(12px,env(safe-area-inset-top));
-      left:14px;
-      right:14px;
-      display:flex;
-      gap:4px;
-    }
-
-    .progress-seg{
-      flex:1;
-      height:3px;
-      border-radius:999px;
-      background:rgba(255,255,255,.23);
-      overflow:hidden;
-    }
-
-    .progress-fill{
-      height:100%;
-      width:0;
-      border-radius:999px;
-      background:white;
-      transition:width .25s;
-    }
-
-    .progress-seg.done .progress-fill{
-      width:100%;
-    }
-
-    .progress-seg.active .progress-fill{
-      width:100%;
-      animation:load 8s linear forwards;
-    }
-
-    @keyframes load{
-      from{width:0}
-      to{width:100%}
-    }
-
-    .topbar{
-      position:fixed;
-      top:calc(max(12px,env(safe-area-inset-top)) + 14px);
-      right:16px;
-      z-index:600;
-      display:flex;
-      gap:8px;
-    }
-
-    .icon-btn{
-      width:38px;
-      height:38px;
-      border-radius:50%;
-      border:1px solid rgba(255,255,255,.15);
-      background:rgba(0,0,0,.28);
-      backdrop-filter:blur(10px);
-      color:white;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:16px;
-      cursor:pointer;
-    }
-
-    .slides{
-      width:100%;
-      height:100%;
+    .section{
+      padding:76px 20px;
       position:relative;
     }
 
-    .slide{
-      position:absolute;
-      inset:0;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      padding:70px 22px 90px;
-      opacity:0;
-      pointer-events:none;
-      transform:translateX(30px) scale(.98);
-      transition:
-        opacity .48s ease,
-        transform .48s cubic-bezier(.2,.8,.2,1);
-      overflow:hidden;
+    .eyebrow{
+      font-size:10px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+      color:#8e827c;
+      font-weight:700;
     }
 
-    .slide.active{
+    .serif{
+      font-family:"Playfair Display",serif;
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(28px);
+      transition:opacity .85s ease,transform .85s ease;
+    }
+
+    .reveal.visible{
       opacity:1;
-      pointer-events:auto;
       transform:none;
     }
 
-    .slide.leaving{
-      opacity:0;
-      transform:translateX(-35px) scale(.98);
+    /* HERO */
+
+    .hero{
+      min-height:100svh;
+      display:flex;
+      align-items:flex-end;
+      position:relative;
+      overflow:hidden;
     }
 
-    .bg1{
+    .hero-bg{
+      position:absolute;
+      inset:0;
       background:
-        radial-gradient(circle at 85% 15%,#ff55a5 0 15%,transparent 40%),
-        linear-gradient(150deg,#5518ff,#c636ff 45%,#ff5a75);
+        linear-gradient(to top,
+          #0b0909 0%,
+          rgba(11,9,9,.86) 23%,
+          rgba(11,9,9,.28) 68%,
+          rgba(11,9,9,.18) 100%
+        ),
+        url("IMG_2384.jpeg") center 28%/cover no-repeat;
+      transform:scale(1.03);
     }
 
-    .bg2{
-      background:
-        radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 25%),
-        linear-gradient(135deg,#ff3b77,#ff7c36 60%,#ffd22f);
+    .hero-content{
+      position:relative;
+      z-index:2;
+      width:100%;
+      padding:120px 22px 50px;
     }
 
-    .bg3{
-      background:
-        radial-gradient(circle at 80% 10%,rgba(255,255,255,.16),transparent 22%),
-        linear-gradient(145deg,#082c21,#0b6b3a 50%,#1ed760);
-    }
-
-    .bg4{
-      background:
-        linear-gradient(160deg,#181818,#232323 50%,#090909);
-    }
-
-    .bg5{
-      background:
-        radial-gradient(circle at 80% 15%,rgba(255,255,255,.2),transparent 24%),
-        linear-gradient(145deg,#6a16cb,#af2dd4 48%,#ff66a6);
-    }
-
-    .bg6{
-      background:
-        radial-gradient(circle at 15% 80%,rgba(255,255,255,.12),transparent 20%),
-        linear-gradient(145deg,#13334f,#047cb8 50%,#18d1d1);
-    }
-
-    .bg7{
-      background:
-        linear-gradient(145deg,#ffdf28,#ff8a2e 60%,#ff4c70);
-      color:#111;
-    }
-
-    .bg8{
-      background:
-        radial-gradient(circle at 50% 0%,#341b6e,transparent 44%),
-        linear-gradient(180deg,#160d29,#08050d);
-    }
-
-    .bg9{
-      background:
-        radial-gradient(circle at 25% 10%,rgba(255,112,166,.28),transparent 35%),
-        linear-gradient(160deg,#2c0b1a,#11090d);
-    }
-
-    .bg10{
-      background:#000;
-    }
-
-    .kicker{
-      font-size:11px;
+    .hero-kicker{
+      color:#c8bbb4;
+      font-size:10px;
+      letter-spacing:3px;
       text-transform:uppercase;
-      font-weight:800;
-      letter-spacing:2.4px;
-      margin-bottom:11px;
-      opacity:.74;
+      font-weight:700;
     }
 
-    .big{
-      font-size:clamp(50px,15vw,92px);
-      line-height:.88;
-      letter-spacing:-4px;
-      font-weight:800;
-      max-width:680px;
+    .hero h1{
+      font-family:"Playfair Display",serif;
+      font-size:clamp(48px,13vw,78px);
+      font-weight:500;
+      line-height:.93;
+      letter-spacing:-2px;
+      margin-top:12px;
     }
 
-    .big.tight{
-      font-size:clamp(43px,12.5vw,78px);
-    }
-
-    .mega{
-      font-size:clamp(115px,40vw,230px);
-      font-weight:800;
-      letter-spacing:-12px;
-      line-height:.76;
-    }
-
-    .body-copy{
-      margin-top:22px;
-      max-width:520px;
-      line-height:1.55;
-      font-size:15px;
+    .hero h1 em{
+      color:#c97b8c;
       font-weight:500;
     }
 
-    .small{
-      font-size:12px;
-      opacity:.72;
-      margin-top:14px;
+    .hero p{
+      max-width:560px;
+      margin-top:22px;
+      color:#d4c8c2;
+      line-height:1.7;
+      font-size:14px;
     }
 
-    .pill{
-      display:inline-flex;
-      width:max-content;
-      padding:9px 14px;
-      border-radius:999px;
-      font-weight:800;
+    .hero p strong{
+      color:white;
+    }
+
+    .scroll-hint{
+      margin-top:30px;
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:#7f7470;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:1.5px;
+    }
+
+    .scroll-line{
+      width:30px;
+      height:1px;
+      background:#7f7470;
+    }
+
+    /* INTRO REPORT */
+
+    .report-card{
+      background:linear-gradient(145deg,#151111,#100d0d);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px 22px;
+      box-shadow:0 25px 70px rgba(0,0,0,.25);
+    }
+
+    .report-head{
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:flex-start;
+      padding-bottom:18px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .report-title{
+      font-size:29px;
+      line-height:1.05;
+    }
+
+    .report-year{
       font-size:11px;
-      margin-top:19px;
-      background:rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.18);
+      color:#7f7470;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:7px 10px;
+      flex:0 0 auto;
     }
 
-    /* PHOTO SLIDES */
-
-    .photo-full{
-      padding:0;
-      justify-content:flex-end;
+    .stat-label{
+      margin-top:28px;
+      color:#8e827c;
+      text-transform:uppercase;
+      letter-spacing:2px;
+      font-size:9px;
+      font-weight:700;
     }
 
-    .photo-full::after{
+    .big-zero{
+      font-size:clamp(115px,37vw,220px);
+      line-height:.77;
+      font-weight:700;
+      letter-spacing:-10px;
+      margin-top:12px;
+      color:#f2e5de;
+    }
+
+    .stat-copy{
+      margin-top:22px;
+      max-width:520px;
+      line-height:1.6;
+      color:#bcb0aa;
+      font-size:14px;
+    }
+
+    .tiny-verdict{
+      margin-top:22px;
+      display:inline-flex;
+      border:1px solid rgba(201,123,140,.28);
+      color:#c98796;
+      padding:9px 12px;
+      border-radius:999px;
+      font-size:10px;
+    }
+
+    /* SEARCH */
+
+    .search-box{
+      margin-top:30px;
+      border-top:1px solid var(--line);
+      border-bottom:1px solid var(--line);
+    }
+
+    .search-row{
+      display:grid;
+      grid-template-columns:80px 1fr auto;
+      align-items:center;
+      gap:10px;
+      min-height:58px;
+      border-bottom:1px solid var(--line);
+      font-size:12px;
+    }
+
+    .search-row:last-child{
+      border-bottom:0;
+    }
+
+    .month{
+      color:#7c716c;
+      font-weight:700;
+      letter-spacing:1px;
+    }
+
+    .status{
+      color:#b9ada7;
+    }
+
+    .no{
+      color:#965d68;
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:1px;
+    }
+
+    .conclusion{
+      margin-top:26px;
+      font-family:"Playfair Display",serif;
+      font-size:28px;
+      line-height:1.15;
+    }
+
+    .conclusion em{
+      color:#c97b8c;
+    }
+
+    /* FULL PHOTO */
+
+    .full-photo{
+      padding:0 18px 76px;
+    }
+
+    .photo-frame{
+      position:relative;
+      border-radius:28px;
+      overflow:hidden;
+      min-height:590px;
+      box-shadow:0 30px 80px rgba(0,0,0,.35);
+    }
+
+    .photo-frame img{
+      height:100%;
+      min-height:590px;
+      object-fit:cover;
+    }
+
+    .photo-frame::after{
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(to top,rgba(0,0,0,.94),rgba(0,0,0,.05) 70%);
-      z-index:1;
+      background:linear-gradient(to top,rgba(5,4,4,.92),transparent 55%);
     }
 
-    .photo-bg{
+    .photo-copy{
       position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-    }
-
-    .photo-content{
-      position:relative;
       z-index:2;
-      padding:26px 22px 88px;
+      bottom:0;
+      left:0;
+      right:0;
+      padding:28px 23px;
     }
 
-    .photo-title{
-      font-size:clamp(40px,12vw,70px);
-      line-height:.95;
-      letter-spacing:-3px;
-      font-weight:800;
+    .photo-copy .eyebrow{
+      color:#c2b5af;
     }
 
-    /* PHOTO STACK */
-
-    .stack{
-      position:relative;
-      height:420px;
-      margin-top:16px;
+    .photo-copy h2{
+      margin-top:10px;
+      font-size:39px;
+      line-height:.98;
+      font-weight:500;
     }
 
-    .stack-card{
-      position:absolute;
-      width:67%;
-      aspect-ratio:3/4;
-      border:8px solid white;
-      border-bottom-width:45px;
-      background:white;
-      box-shadow:0 20px 50px rgba(0,0,0,.3);
-      overflow:hidden;
-    }
-
-    .stack-card img{
-      height:100%;
-      object-fit:cover;
-    }
-
-    .stack-card:nth-child(1){
-      left:-5%;
-      top:40px;
-      transform:rotate(-8deg);
-    }
-
-    .stack-card:nth-child(2){
-      right:-2%;
-      top:0;
-      transform:rotate(7deg);
-    }
-
-    .stack-card:nth-child(3){
-      left:16%;
-      top:100px;
-      transform:rotate(-1deg);
-    }
-
-    /* TYPE/LOADING */
-
-    .searching{
-      margin-top:28px;
-      font-size:14px;
-      font-family:monospace;
-      line-height:2;
-    }
-
-    .search-line{
-      opacity:.35;
-      transform:translateY(5px);
-    }
-
-    .search-line.show{
-      opacity:1;
-      transform:none;
-      transition:.4s;
-    }
-
-    .error{
-      color:#ff557f;
-      font-weight:900;
-    }
-
-    .loader{
-      width:100%;
-      height:8px;
-      border-radius:999px;
-      background:rgba(255,255,255,.15);
-      margin-top:25px;
-      overflow:hidden;
-    }
-
-    .loader span{
-      display:block;
-      width:0%;
-      height:100%;
-      background:var(--spotify);
-      border-radius:999px;
-    }
-
-    .slide.active .loader span{
-      animation:loadingBar 3.7s ease forwards .8s;
-    }
-
-    @keyframes loadingBar{
-      0%{width:0}
-      35%{width:27%}
-      70%{width:74%}
-      100%{width:100%}
-    }
-
-    /* CERTIFICATE */
-
-    .certificate{
-      background:#f6efd9;
-      color:#171717;
-      padding:25px;
-      border-radius:4px;
-      box-shadow:0 20px 70px rgba(0,0,0,.3);
-      transform:rotate(-1deg);
-    }
-
-    .cert-small{
-      font-size:9px;
-      letter-spacing:3px;
-      text-transform:uppercase;
-    }
-
-    .cert-title{
+    .photo-copy p{
       margin-top:13px;
-      font-family:"Playfair Display",serif;
-      font-size:34px;
-      line-height:1;
-    }
-
-    .cert-text{
-      margin-top:18px;
+      color:#d8ccc6;
       line-height:1.55;
       font-size:13px;
     }
 
-    .cert-name{
+    /* REASONS */
+
+    .section-title{
       font-family:"Playfair Display",serif;
-      font-size:37px;
-      font-style:italic;
-      margin-top:22px;
+      font-size:38px;
+      line-height:1.02;
+      font-weight:500;
+      margin-top:10px;
     }
 
-    .cert-rule{
+    .section-sub{
+      max-width:550px;
+      margin-top:15px;
+      color:#a99d97;
+      line-height:1.65;
+      font-size:13px;
+    }
+
+    .reason-grid{
+      display:grid;
+      gap:13px;
+      margin-top:32px;
+    }
+
+    .reason{
+      background:#120f0f;
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+    }
+
+    .reason img{
+      height:330px;
+      object-fit:cover;
+    }
+
+    .reason-body{
+      padding:19px;
+    }
+
+    .reason-num{
+      color:#785a61;
+      font-size:10px;
+      letter-spacing:2px;
+    }
+
+    .reason-text{
+      margin-top:8px;
+      font-family:"Playfair Display",serif;
+      font-size:23px;
+      line-height:1.2;
+    }
+
+    .reason-small{
+      margin-top:8px;
+      color:#867a75;
+      line-height:1.5;
+      font-size:11px;
+    }
+
+    /* SOURCE */
+
+    .source-card{
+      padding:25px 22px;
+      background:linear-gradient(145deg,#1b1415,#110d0e);
+      border:1px solid var(--line);
+      border-radius:26px;
+    }
+
+    .source-card h3{
+      font-family:"Playfair Display",serif;
+      font-size:31px;
+      font-weight:500;
+      line-height:1.05;
+    }
+
+    .source-table{
+      margin-top:24px;
+      border-top:1px solid var(--line);
+    }
+
+    .source-row{
+      display:flex;
+      justify-content:space-between;
+      gap:16px;
+      padding:14px 0;
+      border-bottom:1px solid var(--line);
+      font-size:12px;
+    }
+
+    .source-row span:first-child{
+      color:#786d69;
+    }
+
+    .source-row strong{
+      font-weight:500;
+      text-align:right;
+    }
+
+    /* FIX CALENDAR */
+
+    .fix-box{
+      text-align:center;
+      padding:36px 22px;
+      border-radius:30px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(122,38,56,.22), transparent 42%),
+        #120e0f;
+      border:1px solid var(--line);
+    }
+
+    .fix-box h2{
+      font-family:"Playfair Display",serif;
+      font-size:38px;
+      line-height:1.05;
+      font-weight:500;
+    }
+
+    .fix-box p{
+      margin:14px auto 0;
+      max-width:450px;
+      color:#978b86;
+      line-height:1.6;
+      font-size:13px;
+    }
+
+    .fix-btn{
+      margin-top:24px;
+      border:0;
+      width:100%;
+      max-width:390px;
+      padding:16px 20px;
+      border-radius:999px;
+      background:#e8ddd5;
+      color:#171313;
+      font-weight:700;
+      cursor:pointer;
+      transition:.25s;
+    }
+
+    .fix-btn:active{
+      transform:scale(.97);
+    }
+
+    /* CERTIFICATE */
+
+    #certificateWrap{
+      max-height:0;
+      overflow:hidden;
+      opacity:0;
+      transition:max-height 1s ease,opacity .7s ease,margin .7s ease;
+      margin-top:0;
+    }
+
+    #certificateWrap.show{
+      max-height:900px;
+      opacity:1;
+      margin-top:24px;
+    }
+
+    .certificate{
+      background:#e7dccf;
+      color:#171212;
+      padding:27px 23px;
+      border-radius:5px;
+      transform:rotate(-.6deg);
+      box-shadow:0 25px 70px rgba(0,0,0,.28);
+    }
+
+    .cert-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      border-bottom:1px solid rgba(0,0,0,.16);
+      padding-bottom:13px;
+      font-size:9px;
+      letter-spacing:2px;
+      text-transform:uppercase;
+    }
+
+    .cert-title{
+      margin-top:24px;
+      font-family:"Playfair Display",serif;
+      font-size:36px;
+      line-height:1;
+    }
+
+    .cert-copy{
+      margin-top:17px;
+      line-height:1.6;
+      font-size:12px;
+      color:#3c3330;
+    }
+
+    .cert-name{
+      margin-top:24px;
+      font-family:"Playfair Display",serif;
+      font-size:34px;
+      font-style:italic;
+    }
+
+    .cert-line{
       margin:18px 0;
       height:1px;
-      background:#171717;
-      opacity:.25;
+      background:rgba(0,0,0,.17);
     }
 
     .cert-details{
       display:grid;
-      gap:7px;
+      gap:8px;
+      font-size:11px;
+    }
+
+    .cert-approved{
+      margin-top:22px;
+      text-align:right;
+      font-size:11px;
+      font-weight:700;
+      color:#6f2635;
+      transform:rotate(-3deg);
+    }
+
+    /* 365 */
+
+    .days-section{
+      text-align:center;
+      padding-top:85px;
+      padding-bottom:85px;
+    }
+
+    .days-num{
+      font-size:clamp(120px,40vw,240px);
+      line-height:.75;
+      font-weight:700;
+      letter-spacing:-12px;
+      color:#eee2dc;
+    }
+
+    .days-title{
+      margin-top:28px;
+      font-family:"Playfair Display",serif;
+      font-size:28px;
+      line-height:1.2;
+    }
+
+    .days-small{
+      margin-top:10px;
+      color:#766c68;
       font-size:11px;
     }
 
     /* FINAL */
 
-    .final-photo{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      opacity:.55;
+    .final{
+      min-height:100svh;
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      overflow:hidden;
     }
 
-    .bg10::after{
-      content:"";
+    .final-bg{
       position:absolute;
       inset:0;
-      background:linear-gradient(to top,#000 5%,rgba(0,0,0,.65),rgba(0,0,0,.28));
+      background:
+        linear-gradient(to top,#090707 0%,rgba(9,7,7,.88) 30%,rgba(9,7,7,.18) 72%),
+        url("IMG_2676.jpeg") center/cover no-repeat;
     }
 
     .final-content{
       position:relative;
       z-index:2;
+      padding:120px 22px max(50px,env(safe-area-inset-bottom));
     }
 
-    .final-title{
-      font-family:"Playfair Display",serif;
-      font-size:clamp(45px,13vw,80px);
-      line-height:.95;
-    }
-
-    .final-title em{
-      color:#ff9ebc;
-    }
-
-    .final-copy{
-      margin-top:20px;
-      line-height:1.65;
-      color:#f0e8eb;
-      font-size:14px;
-      max-width:530px;
-    }
-
-    .heart{
-      font-size:42px;
+    .final-heart{
+      font-size:34px;
       margin-bottom:15px;
-      animation:beat 1.4s infinite;
-      width:max-content;
     }
 
-    @keyframes beat{
-      0%,100%{transform:scale(1)}
-      10%{transform:scale(1.15)}
-      20%{transform:scale(1)}
-      30%{transform:scale(1.18)}
-      40%{transform:scale(1)}
+    .final h2{
+      font-family:"Playfair Display",serif;
+      font-size:clamp(45px,12vw,72px);
+      line-height:.95;
+      font-weight:500;
     }
 
-    /* CONTROLS */
-
-    .tapzones{
-      position:fixed;
-      inset:55px 0 0;
-      z-index:300;
-      display:flex;
-      pointer-events:none;
+    .final h2 em{
+      color:#c97b8c;
     }
 
-    .zone{
-      flex:1;
-      pointer-events:auto;
-    }
-
-    .bottom-hint{
-      position:fixed;
-      left:50%;
-      bottom:max(20px,env(safe-area-inset-bottom));
-      z-index:700;
-      transform:translateX(-50%);
-      white-space:nowrap;
-      color:rgba(255,255,255,.65);
-      font-size:10px;
-      letter-spacing:.4px;
-      pointer-events:none;
-    }
-
-    /* SHARE */
-
-    .share-btn{
+    .final p{
       margin-top:22px;
-      width:100%;
-      border:0;
-      border-radius:999px;
-      padding:15px;
-      background:white;
-      color:#111;
-      font-weight:900;
-      cursor:pointer;
+      max-width:540px;
+      color:#d5cac4;
+      line-height:1.75;
+      font-size:14px;
     }
 
-    .share-message{
-      margin-top:12px;
-      font-size:11px;
-      opacity:.75;
-      min-height:16px;
+    .final strong{
+      color:white;
     }
 
-    /* CONFETTI */
-
-    .confetti{
-      position:fixed;
-      z-index:9999;
-      top:-20px;
-      width:9px;
-      height:18px;
-      pointer-events:none;
-      animation:fall 3.2s linear forwards;
+    .final-joke{
+      margin-top:28px;
+      color:#837773;
+      font-size:10px;
+      letter-spacing:.6px;
     }
 
-    @keyframes fall{
-      to{
-        transform:translateY(110vh) rotate(720deg);
-        opacity:.2;
-      }
+    footer{
+      text-align:center;
+      padding:26px 20px 35px;
+      color:#4f4845;
+      font-size:9px;
     }
 
-    /* SWIPE FEEL */
-
-    @media(min-width:700px){
-      #app{
-        max-width:480px;
-        left:50%;
-        transform:translateX(-50%);
-        box-shadow:0 0 80px rgba(255,255,255,.08);
+    @media(min-width:720px){
+      .reason-grid{
+        grid-template-columns:1fr 1fr;
       }
 
-      #progress,
-      .topbar{
-        max-width:452px;
-        left:50%;
-        transform:translateX(-50%);
-      }
-
-      .topbar{
-        left:auto;
-        right:calc(50% - 226px);
-        transform:none;
+      .reason img{
+        height:370px;
       }
     }
 
@@ -690,836 +672,502 @@
 
 <body>
 
-  <!-- ======================
-       INTRO
-  ======================= -->
+  <main class="wrap">
 
-  <div id="intro">
+    <!-- HERO -->
 
-    <div class="spotify-mark"></div>
+    <section class="hero">
+      <div class="hero-bg"></div>
 
-    <div class="intro-kicker">
-      Your 2026 special edition
-    </div>
+      <div class="hero-content">
 
-    <div class="intro-title">
-      Your Name Day
-      <span>Wrapped.</span>
-    </div>
-
-    <div class="intro-copy">
-      Apparently your name doesn't have a Name Day.
-      Not today. Not tomorrow. Not even on some random Tuesday in November.
-      <br><br>
-      I found that unacceptable.
-    </div>
-
-    <button class="start-btn" onclick="startWrapped()">
-      See your Wrapped ♡
-    </button>
-
-    <div class="sound-note">
-      turn your sound on — I added a few things :)
-    </div>
-
-  </div>
-
-
-  <!-- ======================
-       PROGRESS
-  ======================= -->
-
-  <div id="progress"></div>
-
-
-  <div class="topbar">
-
-    <button class="icon-btn" id="soundButton" onclick="toggleSound()">
-      ♪
-    </button>
-
-    <button class="icon-btn" onclick="restartWrapped()">
-      ↻
-    </button>
-
-  </div>
-
-
-  <!-- ======================
-       SLIDES
-  ======================= -->
-
-  <main id="app">
-
-    <div class="slides">
-
-
-      <!-- 1 -->
-
-      <section class="slide bg1 active">
-
-        <div class="kicker">
-          Your Name Day Wrapped
+        <div class="hero-kicker">
+          A completely unnecessary annual report
         </div>
 
-        <div class="big">
-          Let's look at your year.
+        <h1>
+          Your Name Day
+          <em>Wrapped.</em>
+        </h1>
+
+        <p>
+          Apparently, your name does not have a Name Day.
+          Not today.
+          Not tomorrow.
+          Not even on some completely random date hidden in the calendar.
+          <br><br>
+          <strong>I found this unacceptable.</strong>
+        </p>
+
+        <div class="scroll-hint">
+          <div class="scroll-line"></div>
+          scroll for the report
         </div>
 
-        <div class="body-copy">
-          Specifically, the part where the entire calendar somehow forgot to give you a Name Day.
+      </div>
+    </section>
+
+
+    <!-- 0 DAYS -->
+
+    <section class="section">
+
+      <div class="report-card reveal">
+
+        <div class="report-head">
+
+          <div>
+            <div class="eyebrow">
+              Annual summary
+            </div>
+
+            <div class="report-title serif">
+              Name Day statistics
+            </div>
+          </div>
+
+          <div class="report-year">
+            2026
+          </div>
+
         </div>
 
-        <div class="pill">
-          This is already suspicious
+
+        <div class="stat-label">
+          Official Name Days found
         </div>
 
-      </section>
-
-
-      <!-- 2 -->
-
-      <section class="slide bg2">
-
-        <div class="kicker">
-          Your biggest statistic
-        </div>
-
-        <div class="body-copy">
-          Number of official Name Days you received this year:
-        </div>
-
-        <div class="mega">
+        <div class="big-zero">
           0
         </div>
 
-        <div class="body-copy">
-          Honestly, embarrassing behaviour from the calendar.
+        <div class="stat-copy">
+          We would like to clarify that this is not a typo.
+          The calendar genuinely gave you nothing.
         </div>
 
-      </section>
-
-
-      <!-- 3 -->
-
-      <section class="slide bg3">
-
-        <div class="kicker">
-          We checked
+        <div class="tiny-verdict">
+          Poor performance from the calendar.
         </div>
 
-        <div class="big tight">
-          Maybe they just hid it somewhere?
+      </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <section class="section">
+
+      <div class="reveal">
+
+        <div class="eyebrow">
+          Verification process
         </div>
 
-        <div class="searching">
-          <div class="search-line">Checking January... ❌</div>
-          <div class="search-line">Checking summer... ❌</div>
-          <div class="search-line">Checking weird saint days... ❌</div>
-          <div class="search-line">Checking December just in case... ❌</div>
-          <div class="search-line error">Name Day not found.</div>
+        <div class="section-title">
+          We checked.
+          <br>
+          Thoroughly.
         </div>
 
-        <div class="small">
-          We even checked twice. Very professional research.
+        <div class="section-sub">
+          Because surely someone this important could not have simply been forgotten.
         </div>
 
-      </section>
 
+        <div class="search-box">
 
-      <!-- 4 PHOTO -->
-
-      <section class="slide photo-full">
-
-        <img class="photo-bg"
-             src="d402ad99-1673-4944-b662-cf76ead8c300.jpeg"
-             alt="Her">
-
-        <div class="photo-content">
-
-          <div class="kicker">
-            This makes absolutely no sense
+          <div class="search-row">
+            <div class="month">JAN</div>
+            <div class="status">Checking early options</div>
+            <div class="no">Not found</div>
           </div>
 
-          <div class="photo-title">
-            Look at her.
+          <div class="search-row">
+            <div class="month">APR</div>
+            <div class="status">Trying spring</div>
+            <div class="no">Still no</div>
           </div>
 
-          <div class="body-copy">
-            And you're telling me this girl doesn't even get one day on the calendar?
+          <div class="search-row">
+            <div class="month">AUG</div>
+            <div class="status">Surely summer?</div>
+            <div class="no">Apparently not</div>
           </div>
 
-        </div>
-
-      </section>
-
-
-      <!-- 5 -->
-
-      <section class="slide bg5">
-
-        <div class="kicker">
-          Reasons this is unacceptable
-        </div>
-
-        <div class="big tight">
-          The evidence was overwhelming.
-        </div>
-
-        <div class="stack">
-
-          <div class="stack-card">
-            <img src="IMG_2119.jpeg" alt="">
-          </div>
-
-          <div class="stack-card">
-            <img src="IMG_2155 (1).jpeg" alt="">
-          </div>
-
-          <div class="stack-card">
-            <img src="IMG_2208.jpeg" alt="">
+          <div class="search-row">
+            <div class="month">DEC</div>
+            <div class="status">Last chance</div>
+            <div class="no">Seriously?</div>
           </div>
 
         </div>
 
-      </section>
+        <div class="conclusion">
+          Conclusion:
+          the calendar has
+          <em>terrible taste.</em>
+        </div>
+
+      </div>
+
+    </section>
 
 
-      <!-- 6 PHOTO -->
+    <!-- BIG PHOTO -->
 
-      <section class="slide photo-full">
+    <section class="full-photo">
 
-        <img class="photo-bg"
-             src="IMG_2676.jpeg"
-             alt="Us">
+      <div class="photo-frame reveal">
 
-        <div class="photo-content">
+        <img
+          src="d402ad99-1673-4944-b662-cf76ead8c300.jpeg"
+          alt="Her">
 
-          <div class="kicker">
-            Extremely unbiased opinion
+        <div class="photo-copy">
+
+          <div class="eyebrow">
+            Exhibit no. 1
           </div>
 
-          <div class="photo-title">
-            You deserve your own day.
+          <h2 class="serif">
+            This is the person they forgot to celebrate.
+          </h2>
+
+          <p>
+            Which, after reviewing the evidence, feels like a pretty serious oversight.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- REASONS -->
+
+    <section class="section">
+
+      <div class="reveal">
+
+        <div class="eyebrow">
+          Supporting evidence
+        </div>
+
+        <div class="section-title">
+          Reasons this seems wrong.
+        </div>
+
+        <div class="section-sub">
+          I could have made this list much longer.
+          I showed unusual restraint.
+        </div>
+
+      </div>
+
+
+      <div class="reason-grid">
+
+        <div class="reason reveal">
+          <img src="IMG_2119.jpeg" alt="Her">
+          <div class="reason-body">
+            <div class="reason-num">01</div>
+            <div class="reason-text">
+              This smile deserves at least one public holiday.
+            </div>
+            <div class="reason-small">
+              Minimum requirement, in my opinion.
+            </div>
+          </div>
+        </div>
+
+
+        <div class="reason reveal">
+          <img src="IMG_2155 (1).jpeg" alt="Her">
+          <div class="reason-body">
+            <div class="reason-num">02</div>
+            <div class="reason-text">
+              Somehow always looks better than she needs to.
+            </div>
+            <div class="reason-small">
+              Very inconvenient for everyone else.
+            </div>
+          </div>
+        </div>
+
+
+        <div class="reason reveal">
+          <img src="IMG_2208.jpeg" alt="Her">
+          <div class="reason-body">
+            <div class="reason-num">03</div>
+            <div class="reason-text">
+              Makes normal days feel less normal.
+            </div>
+            <div class="reason-small">
+              Usually in a very good way.
+            </div>
+          </div>
+        </div>
+
+
+        <div class="reason reveal">
+          <img src="IMG_2384.jpeg" alt="Us">
+          <div class="reason-body">
+            <div class="reason-num">04</div>
+            <div class="reason-text">
+              Also happens to be my favourite person.
+            </div>
+            <div class="reason-small">
+              This may influence the report slightly.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- SOURCE -->
+
+    <section class="section">
+
+      <div class="source-card reveal">
+
+        <div class="eyebrow">
+          Scientific credibility
+        </div>
+
+        <h3>
+          Most reliable source:
+          <br>
+          her boyfriend.
+        </h3>
+
+        <div class="source-table">
+
+          <div class="source-row">
+            <span>Objectivity</span>
+            <strong>0%</strong>
           </div>
 
-          <div class="body-copy">
-            Source: me.
-            <br>
-            Reliability: questionable.
-            <br>
-            Confidence: 100%.
+          <div class="source-row">
+            <span>Bias</span>
+            <strong>Extreme</strong>
+          </div>
+
+          <div class="source-row">
+            <span>Confidence</span>
+            <strong>100%</strong>
+          </div>
+
+          <div class="source-row">
+            <span>Chance of changing opinion</span>
+            <strong>0%</strong>
           </div>
 
         </div>
 
-      </section>
+      </div>
+
+    </section>
 
 
-      <!-- 7 -->
+    <!-- CREATE DAY -->
 
-      <section class="slide bg7">
+    <section class="section">
 
-        <div class="kicker">
-          So I fixed it
+      <div class="fix-box reveal">
+
+        <div class="eyebrow">
+          Corrective action
         </div>
 
-        <div class="big tight">
-          Creating your very own Name Day...
-        </div>
+        <h2>
+          Fine.
+          <br>
+          I'll fix the calendar myself.
+        </h2>
 
-        <div class="loader">
-          <span></span>
-        </div>
+        <p>
+          One completely unofficial Name Day,
+          created specifically for you.
+        </p>
 
-        <div class="searching">
-          <div>Adding kisses...</div>
-          <div>Adding unlimited hugs...</div>
-          <div>Adding food privileges...</div>
-          <div>Adding boyfriend approval...</div>
-        </div>
+        <button class="fix-btn" onclick="createNameDay()">
+          Fix the calendar
+        </button>
 
-      </section>
+      </div>
 
 
-      <!-- 8 CERTIFICATE -->
-
-      <section class="slide bg8">
-
-        <div class="kicker">
-          Congratulations
-        </div>
+      <div id="certificateWrap">
 
         <div class="certificate">
 
-          <div class="cert-small">
-            Officially unofficial certificate
+          <div class="cert-top">
+            <span>Officially unofficial</span>
+            <span>Approved</span>
           </div>
 
           <div class="cert-title">
             Name Day Certificate
           </div>
 
-          <div class="cert-text">
-            This certifies that the owner of this phone is now officially entitled to one completely invented, boyfriend-approved Name Day.
+          <div class="cert-copy">
+            This certifies that the owner of this certificate is entitled to a completely invented, fully valid and permanently boyfriend-approved Name Day.
           </div>
 
           <div class="cert-name">
             My favourite girl ♡
           </div>
 
-          <div class="cert-rule"></div>
+          <div class="cert-line"></div>
 
           <div class="cert-details">
-            <div><b>Status:</b> APPROVED ✓</div>
-            <div><b>Valid:</b> Forever</div>
-            <div><b>Frequency:</b> Whenever I want to celebrate you</div>
-            <div><b>Benefits:</b> Hugs, kisses, food & unreasonable amounts of affection</div>
-            <div><b>Refund policy:</b> None</div>
+            <div><b>Status:</b> Valid</div>
+            <div><b>Expiration:</b> Never</div>
+            <div><b>Celebration frequency:</b> Whenever necessary</div>
+            <div><b>Included benefits:</b> hugs, kisses, food and being spoiled</div>
+            <div><b>Appeals:</b> Not accepted</div>
+          </div>
+
+          <div class="cert-approved">
+            APPROVED BY ME ✓
           </div>
 
         </div>
 
-      </section>
+      </div>
+
+    </section>
 
 
-      <!-- 9 -->
+    <!-- 365 -->
 
-      <section class="slide bg9">
+    <section class="section days-section">
 
-        <div class="kicker">
-          One final statistic
+      <div class="reveal">
+
+        <div class="eyebrow">
+          Final statistic
         </div>
 
-        <div class="big tight">
-          Days of the year I think you're worth celebrating:
-        </div>
-
-        <div class="mega" style="font-size:38vw; margin-top:28px;">
+        <div class="days-num">
           365
         </div>
 
-        <div class="body-copy">
+        <div class="days-title">
+          Days per year I have a reason to celebrate you.
+        </div>
+
+        <div class="days-small">
           366 when the calendar gives me an extra one.
         </div>
 
-      </section>
+      </div>
+
+    </section>
 
 
-      <!-- 10 FINAL -->
+    <!-- FINAL -->
 
-      <section class="slide bg10">
+    <section class="final">
 
-        <img
-          class="final-photo"
-          src="IMG_2384.jpeg"
-          alt="Us">
+      <div class="final-bg"></div>
 
-        <div class="final-content">
+      <div class="final-content reveal">
 
-          <div class="heart">
-            ❤️
-          </div>
-
-          <div class="kicker">
-            Jokes aside
-          </div>
-
-          <div class="final-title">
-            The calendar may have
-            <em>forgotten you.</em>
-          </div>
-
-          <div class="final-copy">
-            I didn't.
-            <br><br>
-
-            Maybe your name doesn't have a special day written somewhere on a calendar.
-            But I don't really need one to celebrate you.
-            <br><br>
-
-            I'm just very happy that you exist on all 365 of them.
-            <br><br>
-
-            <strong>
-              Happy very unofficial Name Day, beautiful.
-              <br>
-              I love you. ❤️
-            </strong>
-          </div>
-
-          <button class="share-btn" onclick="fakeShare()">
-            Share your Wrapped
-          </button>
-
-          <div class="share-message" id="shareMessage"></div>
-
+        <div class="final-heart">
+          ♡
         </div>
 
-      </section>
+        <div class="eyebrow">
+          Jokes aside
+        </div>
+
+        <h2>
+          Maybe the calendar
+          <em>forgot you.</em>
+        </h2>
+
+        <p>
+          I don't really care.
+          <br><br>
+
+          You don't need a date with your name written on it
+          for me to have a reason to celebrate you.
+          <br><br>
+
+          I'm just really happy that you exist on all 365 of them.
+          <br><br>
+
+          <strong>
+            Happy extremely unofficial Name Day, beautiful.
+            <br>
+            I love you. ❤️
+          </strong>
+        </p>
+
+        <div class="final-joke">
+          Calendar: 0 &nbsp;•&nbsp; Me: 1
+        </div>
+
+      </div>
+
+    </section>
 
 
-    </div>
+    <footer>
+      No calendars were harmed during the creation of this website.
+    </footer>
 
   </main>
 
 
-  <!-- click zones -->
-
-  <div class="tapzones">
-    <div class="zone" onclick="previousSlide()"></div>
-    <div class="zone" onclick="nextSlide()"></div>
-  </div>
-
-  <div class="bottom-hint">
-    tap left / right to navigate
-  </div>
-
-
   <script>
 
-    /* ================================
-       STATE
-    ================================ */
-
-    const slides = [...document.querySelectorAll(".slide")];
-    const progress = document.getElementById("progress");
-
-    let current = 0;
-    let started = false;
-    let soundEnabled = true;
-
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    /* ================================
-       PROGRESS BARS
-    ================================ */
-
-    slides.forEach((_,i)=>{
-
-      const seg = document.createElement("div");
-      seg.className = "progress-seg";
-
-      const fill = document.createElement("div");
-      fill.className = "progress-fill";
-
-      seg.appendChild(fill);
-      progress.appendChild(seg);
-
-    });
-
-    function updateProgress(){
-
-      const bars = [...document.querySelectorAll(".progress-seg")];
-
-      bars.forEach((bar,i)=>{
-
-        bar.classList.remove("done","active");
-
-        if(i < current){
-          bar.classList.add("done");
-        }
-
-        if(i === current){
-          bar.classList.add("active");
-        }
-
-      });
-
-    }
-
-
-    /* ================================
-       START
-    ================================ */
-
-    function startWrapped(){
-
-      started = true;
-
-      document.getElementById("intro").classList.add("hide");
-
-      initAudio();
-
-      sparkleSound();
-
-      updateProgress();
-
-      animateCurrent();
-
-      setTimeout(()=>{
-        burstConfetti(22);
-      },500);
-
-    }
-
-
-    /* ================================
-       SLIDES
-    ================================ */
-
-    function showSlide(index){
-
-      if(!started) return;
-
-      if(index < 0){
-        index = 0;
-      }
-
-      if(index >= slides.length){
-        index = slides.length - 1;
-      }
-
-      if(index === current) return;
-
-      const old = slides[current];
-
-      old.classList.remove("active");
-      old.classList.add("leaving");
-
-      setTimeout(()=>{
-        old.classList.remove("leaving");
-      },500);
-
-      current = index;
-
-      slides[current].classList.add("active");
-
-      clickSound();
-
-      updateProgress();
-
-      animateCurrent();
-
-      if(current === 7){
-        setTimeout(()=>{
-          sparkleSound();
-          burstConfetti(70);
-        },700);
-      }
-
-      if(current === 9){
-        setTimeout(()=>{
-          heartbeatSound();
-        },500);
-      }
-
-    }
-
-    function nextSlide(){
-      showSlide(current + 1);
-    }
-
-    function previousSlide(){
-      showSlide(current - 1);
-    }
-
-    function restartWrapped(){
-
-      if(!started){
-        startWrapped();
-        return;
-      }
-
-      current = 0;
-
-      slides.forEach(slide=>{
-        slide.classList.remove("active","leaving");
-      });
-
-      slides[0].classList.add("active");
-
-      updateProgress();
-
-      clickSound();
-
-    }
-
-
-    /* ================================
-       SPECIAL ANIMATIONS
-    ================================ */
-
-    function animateCurrent(){
-
-      if(current === 2){
-
-        const lines =
-          slides[current].querySelectorAll(".search-line");
-
-        lines.forEach(line=>{
-          line.classList.remove("show");
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            entry.target.classList.add("visible");
+          }
         });
+      },
+      {
+        threshold:0.12
+      }
+    );
 
-        lines.forEach((line,i)=>{
+    document
+      .querySelectorAll(".reveal")
+      .forEach(el => observer.observe(el));
 
-          setTimeout(()=>{
 
-            line.classList.add("show");
+    function createNameDay(){
 
-            if(soundEnabled){
-              tinyTick();
-            }
+      const wrap =
+        document.getElementById("certificateWrap");
 
-          },500 + i*600);
+      wrap.classList.add("show");
 
+      setTimeout(() => {
+        wrap.scrollIntoView({
+          behavior:"smooth",
+          block:"center"
         });
-
-      }
-
-    }
-
-
-    /* ================================
-       SWIPE
-    ================================ */
-
-    document.addEventListener("touchstart",e=>{
-
-      touchStartX = e.changedTouches[0].screenX;
-
-    },{passive:true});
-
-    document.addEventListener("touchend",e=>{
-
-      touchEndX = e.changedTouches[0].screenX;
-
-      const diff = touchEndX - touchStartX;
-
-      if(Math.abs(diff) > 65){
-
-        if(diff < 0){
-          nextSlide();
-        }else{
-          previousSlide();
-        }
-
-      }
-
-    },{passive:true});
-
-
-    /* ================================
-       KEYBOARD
-    ================================ */
-
-    document.addEventListener("keydown",e=>{
-
-      if(e.key === "ArrowRight"){
-        nextSlide();
-      }
-
-      if(e.key === "ArrowLeft"){
-        previousSlide();
-      }
-
-    });
-
-
-    /* ================================
-       FAKE SHARE
-    ================================ */
-
-    function fakeShare(){
-
-      const msg =
-        document.getElementById("shareMessage");
-
-      clickSound();
-
-      msg.innerHTML =
-        `
-        Sharing disabled.<br>
-        <b>This one belongs only to us. ❤️</b>
-        `;
-
-      burstConfetti(18);
-
-    }
-
-
-    /* ================================
-       CONFETTI
-    ================================ */
-
-    function burstConfetti(amount=40){
-
-      const colors = [
-        "#1ed760",
-        "#ff4b91",
-        "#ffd52e",
-        "#ffffff",
-        "#8855ff",
-        "#ff843c"
-      ];
-
-      for(let i=0;i<amount;i++){
-
-        setTimeout(()=>{
-
-          const piece = document.createElement("div");
-
-          piece.className="confetti";
-
-          piece.style.left =
-            Math.random()*100+"vw";
-
-          piece.style.background =
-            colors[
-              Math.floor(Math.random()*colors.length)
-            ];
-
-          piece.style.transform =
-            `rotate(${Math.random()*360}deg)`;
-
-          piece.style.animationDuration =
-            (2.3+Math.random()*2)+"s";
-
-          document.body.appendChild(piece);
-
-          setTimeout(()=>{
-            piece.remove();
-          },4500);
-
-        },i*20);
-
-      }
-
-    }
-
-
-    /* ================================
-       WEB AUDIO
-       No audio file needed
-    ================================ */
-
-    let audioCtx = null;
-
-    function initAudio(){
-
-      if(!audioCtx){
-
-        audioCtx =
-          new(
-            window.AudioContext ||
-            window.webkitAudioContext
-          )();
-
-      }
-
-      if(audioCtx.state === "suspended"){
-        audioCtx.resume();
-      }
-
-    }
-
-
-    function tone(
-      freq,
-      duration,
-      type="sine",
-      volume=.05,
-      delay=0
-    ){
-
-      if(!soundEnabled) return;
-
-      initAudio();
-
-      const osc =
-        audioCtx.createOscillator();
-
-      const gain =
-        audioCtx.createGain();
-
-      osc.type = type;
-
-      osc.frequency.value = freq;
-
-      gain.gain.setValueAtTime(
-        0,
-        audioCtx.currentTime + delay
-      );
-
-      gain.gain.linearRampToValueAtTime(
-        volume,
-        audioCtx.currentTime + delay + .01
-      );
-
-      gain.gain.exponentialRampToValueAtTime(
-        .0001,
-        audioCtx.currentTime + delay + duration
-      );
-
-      osc.connect(gain);
-
-      gain.connect(audioCtx.destination);
-
-      osc.start(
-        audioCtx.currentTime + delay
-      );
-
-      osc.stop(
-        audioCtx.currentTime + delay + duration + .02
-      );
-
-    }
-
-
-    function clickSound(){
-
-      tone(270,.07,"sine",.035);
-      tone(420,.08,"sine",.025,.035);
-
-    }
-
-
-    function tinyTick(){
-
-      tone(560,.035,"triangle",.025);
-
-    }
-
-
-    function sparkleSound(){
-
-      tone(660,.22,"sine",.035);
-      tone(880,.25,"sine",.03,.09);
-      tone(1100,.3,"sine",.025,.18);
-
-    }
-
-
-    function heartbeatSound(){
-
-      tone(85,.15,"sine",.09);
-      tone(75,.18,"sine",.07,.18);
-
-      setTimeout(()=>{
-
-        tone(85,.15,"sine",.09);
-        tone(75,.18,"sine",.07,.18);
-
-      },720);
-
-    }
-
-
-    function toggleSound(){
-
-      soundEnabled = !soundEnabled;
+      },350);
 
       const button =
-        document.getElementById("soundButton");
+        document.querySelector(".fix-btn");
 
       button.textContent =
-        soundEnabled ? "♪" : "×";
+        "Calendar fixed ✓";
 
-      if(soundEnabled){
-        sparkleSound();
-      }
-
+      button.disabled = true;
     }
 
   </script>
