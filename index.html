@@ -1,12 +1,1528 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#171717" />
+  <title>Your Name Day Wrapped ♡</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap');
+
+    :root{
+      --black:#0c0c0c;
+      --white:#ffffff;
+      --cream:#fff6ec;
+      --spotify:#1ed760;
+      --pink:#ff6da8;
+      --hot:#ff3f78;
+      --purple:#7d4dff;
+      --yellow:#ffd541;
+      --orange:#ff7a39;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html,body{
+      width:100%;
+      min-height:100%;
+      background:#000;
+      color:white;
+      font-family:"DM Sans",sans-serif;
+      overflow:hidden;
+      overscroll-behavior:none;
+    }
+
+    button{
+      font:inherit;
+    }
+
+    img{
+      width:100%;
+      display:block;
+    }
+
+    /* ==============================
+       INTRO
+    ============================== */
+
+    #intro{
+      position:fixed;
+      inset:0;
+      z-index:10000;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.96), rgba(0,0,0,.16) 68%),
+        url("IMG_2384.jpeg") center/cover no-repeat;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:28px 20px max(34px,env(safe-area-inset-bottom));
+      transition:opacity .8s ease, visibility .8s ease;
+    }
+
+    #intro.hide{
+      opacity:0;
+      visibility:hidden;
+    }
+
+    .spotify-mark{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:var(--spotify);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin-bottom:20px;
+      box-shadow:0 10px 35px rgba(30,215,96,.25);
+    }
+
+    .spotify-mark::before{
+      content:"♪";
+      color:black;
+      font-size:24px;
+      font-weight:900;
+    }
+
+    .intro-kicker{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:3px;
+      font-weight:800;
+      color:#b7b7b7;
+    }
+
+    .intro-title{
+      margin-top:10px;
+      font-weight:800;
+      font-size:clamp(48px,14vw,82px);
+      line-height:.87;
+      letter-spacing:-4px;
+    }
+
+    .intro-title span{
+      color:var(--spotify);
+    }
+
+    .intro-copy{
+      margin-top:20px;
+      max-width:540px;
+      line-height:1.55;
+      color:#e6e6e6;
+      font-size:14px;
+    }
+
+    .start-btn{
+      width:100%;
+      margin-top:25px;
+      border:0;
+      border-radius:999px;
+      padding:17px 18px;
+      background:var(--spotify);
+      color:#07130b;
+      font-weight:900;
+      font-size:14px;
+      cursor:pointer;
+      box-shadow:0 14px 40px rgba(30,215,96,.26);
+    }
+
+    .sound-note{
+      margin-top:10px;
+      text-align:center;
+      color:#8f8f8f;
+      font-size:10px;
+    }
+
+    /* ==============================
+       APP
+    ============================== */
+
+    #app{
+      position:fixed;
+      inset:0;
+      background:#000;
+    }
+
+    #progress{
+      position:fixed;
+      z-index:500;
+      top:max(12px,env(safe-area-inset-top));
+      left:14px;
+      right:14px;
+      display:flex;
+      gap:4px;
+    }
+
+    .progress-seg{
+      flex:1;
+      height:3px;
+      border-radius:999px;
+      background:rgba(255,255,255,.23);
+      overflow:hidden;
+    }
+
+    .progress-fill{
+      height:100%;
+      width:0;
+      border-radius:999px;
+      background:white;
+      transition:width .25s;
+    }
+
+    .progress-seg.done .progress-fill{
+      width:100%;
+    }
+
+    .progress-seg.active .progress-fill{
+      width:100%;
+      animation:load 8s linear forwards;
+    }
+
+    @keyframes load{
+      from{width:0}
+      to{width:100%}
+    }
+
+    .topbar{
+      position:fixed;
+      top:calc(max(12px,env(safe-area-inset-top)) + 14px);
+      right:16px;
+      z-index:600;
+      display:flex;
+      gap:8px;
+    }
+
+    .icon-btn{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.15);
+      background:rgba(0,0,0,.28);
+      backdrop-filter:blur(10px);
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    .slides{
+      width:100%;
+      height:100%;
+      position:relative;
+    }
+
+    .slide{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding:70px 22px 90px;
+      opacity:0;
+      pointer-events:none;
+      transform:translateX(30px) scale(.98);
+      transition:
+        opacity .48s ease,
+        transform .48s cubic-bezier(.2,.8,.2,1);
+      overflow:hidden;
+    }
+
+    .slide.active{
+      opacity:1;
+      pointer-events:auto;
+      transform:none;
+    }
+
+    .slide.leaving{
+      opacity:0;
+      transform:translateX(-35px) scale(.98);
+    }
+
+    .bg1{
+      background:
+        radial-gradient(circle at 85% 15%,#ff55a5 0 15%,transparent 40%),
+        linear-gradient(150deg,#5518ff,#c636ff 45%,#ff5a75);
+    }
+
+    .bg2{
+      background:
+        radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 25%),
+        linear-gradient(135deg,#ff3b77,#ff7c36 60%,#ffd22f);
+    }
+
+    .bg3{
+      background:
+        radial-gradient(circle at 80% 10%,rgba(255,255,255,.16),transparent 22%),
+        linear-gradient(145deg,#082c21,#0b6b3a 50%,#1ed760);
+    }
+
+    .bg4{
+      background:
+        linear-gradient(160deg,#181818,#232323 50%,#090909);
+    }
+
+    .bg5{
+      background:
+        radial-gradient(circle at 80% 15%,rgba(255,255,255,.2),transparent 24%),
+        linear-gradient(145deg,#6a16cb,#af2dd4 48%,#ff66a6);
+    }
+
+    .bg6{
+      background:
+        radial-gradient(circle at 15% 80%,rgba(255,255,255,.12),transparent 20%),
+        linear-gradient(145deg,#13334f,#047cb8 50%,#18d1d1);
+    }
+
+    .bg7{
+      background:
+        linear-gradient(145deg,#ffdf28,#ff8a2e 60%,#ff4c70);
+      color:#111;
+    }
+
+    .bg8{
+      background:
+        radial-gradient(circle at 50% 0%,#341b6e,transparent 44%),
+        linear-gradient(180deg,#160d29,#08050d);
+    }
+
+    .bg9{
+      background:
+        radial-gradient(circle at 25% 10%,rgba(255,112,166,.28),transparent 35%),
+        linear-gradient(160deg,#2c0b1a,#11090d);
+    }
+
+    .bg10{
+      background:#000;
+    }
+
+    .kicker{
+      font-size:11px;
+      text-transform:uppercase;
+      font-weight:800;
+      letter-spacing:2.4px;
+      margin-bottom:11px;
+      opacity:.74;
+    }
+
+    .big{
+      font-size:clamp(50px,15vw,92px);
+      line-height:.88;
+      letter-spacing:-4px;
+      font-weight:800;
+      max-width:680px;
+    }
+
+    .big.tight{
+      font-size:clamp(43px,12.5vw,78px);
+    }
+
+    .mega{
+      font-size:clamp(115px,40vw,230px);
+      font-weight:800;
+      letter-spacing:-12px;
+      line-height:.76;
+    }
+
+    .body-copy{
+      margin-top:22px;
+      max-width:520px;
+      line-height:1.55;
+      font-size:15px;
+      font-weight:500;
+    }
+
+    .small{
+      font-size:12px;
+      opacity:.72;
+      margin-top:14px;
+    }
+
+    .pill{
+      display:inline-flex;
+      width:max-content;
+      padding:9px 14px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:11px;
+      margin-top:19px;
+      background:rgba(255,255,255,.16);
+      border:1px solid rgba(255,255,255,.18);
+    }
+
+    /* PHOTO SLIDES */
+
+    .photo-full{
+      padding:0;
+      justify-content:flex-end;
+    }
+
+    .photo-full::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top,rgba(0,0,0,.94),rgba(0,0,0,.05) 70%);
+      z-index:1;
+    }
+
+    .photo-bg{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+
+    .photo-content{
+      position:relative;
+      z-index:2;
+      padding:26px 22px 88px;
+    }
+
+    .photo-title{
+      font-size:clamp(40px,12vw,70px);
+      line-height:.95;
+      letter-spacing:-3px;
+      font-weight:800;
+    }
+
+    /* PHOTO STACK */
+
+    .stack{
+      position:relative;
+      height:420px;
+      margin-top:16px;
+    }
+
+    .stack-card{
+      position:absolute;
+      width:67%;
+      aspect-ratio:3/4;
+      border:8px solid white;
+      border-bottom-width:45px;
+      background:white;
+      box-shadow:0 20px 50px rgba(0,0,0,.3);
+      overflow:hidden;
+    }
+
+    .stack-card img{
+      height:100%;
+      object-fit:cover;
+    }
+
+    .stack-card:nth-child(1){
+      left:-5%;
+      top:40px;
+      transform:rotate(-8deg);
+    }
+
+    .stack-card:nth-child(2){
+      right:-2%;
+      top:0;
+      transform:rotate(7deg);
+    }
+
+    .stack-card:nth-child(3){
+      left:16%;
+      top:100px;
+      transform:rotate(-1deg);
+    }
+
+    /* TYPE/LOADING */
+
+    .searching{
+      margin-top:28px;
+      font-size:14px;
+      font-family:monospace;
+      line-height:2;
+    }
+
+    .search-line{
+      opacity:.35;
+      transform:translateY(5px);
+    }
+
+    .search-line.show{
+      opacity:1;
+      transform:none;
+      transition:.4s;
+    }
+
+    .error{
+      color:#ff557f;
+      font-weight:900;
+    }
+
+    .loader{
+      width:100%;
+      height:8px;
+      border-radius:999px;
+      background:rgba(255,255,255,.15);
+      margin-top:25px;
+      overflow:hidden;
+    }
+
+    .loader span{
+      display:block;
+      width:0%;
+      height:100%;
+      background:var(--spotify);
+      border-radius:999px;
+    }
+
+    .slide.active .loader span{
+      animation:loadingBar 3.7s ease forwards .8s;
+    }
+
+    @keyframes loadingBar{
+      0%{width:0}
+      35%{width:27%}
+      70%{width:74%}
+      100%{width:100%}
+    }
+
+    /* CERTIFICATE */
+
+    .certificate{
+      background:#f6efd9;
+      color:#171717;
+      padding:25px;
+      border-radius:4px;
+      box-shadow:0 20px 70px rgba(0,0,0,.3);
+      transform:rotate(-1deg);
+    }
+
+    .cert-small{
+      font-size:9px;
+      letter-spacing:3px;
+      text-transform:uppercase;
+    }
+
+    .cert-title{
+      margin-top:13px;
+      font-family:"Playfair Display",serif;
+      font-size:34px;
+      line-height:1;
+    }
+
+    .cert-text{
+      margin-top:18px;
+      line-height:1.55;
+      font-size:13px;
+    }
+
+    .cert-name{
+      font-family:"Playfair Display",serif;
+      font-size:37px;
+      font-style:italic;
+      margin-top:22px;
+    }
+
+    .cert-rule{
+      margin:18px 0;
+      height:1px;
+      background:#171717;
+      opacity:.25;
+    }
+
+    .cert-details{
+      display:grid;
+      gap:7px;
+      font-size:11px;
+    }
+
+    /* FINAL */
+
+    .final-photo{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.55;
+    }
+
+    .bg10::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top,#000 5%,rgba(0,0,0,.65),rgba(0,0,0,.28));
+    }
+
+    .final-content{
+      position:relative;
+      z-index:2;
+    }
+
+    .final-title{
+      font-family:"Playfair Display",serif;
+      font-size:clamp(45px,13vw,80px);
+      line-height:.95;
+    }
+
+    .final-title em{
+      color:#ff9ebc;
+    }
+
+    .final-copy{
+      margin-top:20px;
+      line-height:1.65;
+      color:#f0e8eb;
+      font-size:14px;
+      max-width:530px;
+    }
+
+    .heart{
+      font-size:42px;
+      margin-bottom:15px;
+      animation:beat 1.4s infinite;
+      width:max-content;
+    }
+
+    @keyframes beat{
+      0%,100%{transform:scale(1)}
+      10%{transform:scale(1.15)}
+      20%{transform:scale(1)}
+      30%{transform:scale(1.18)}
+      40%{transform:scale(1)}
+    }
+
+    /* CONTROLS */
+
+    .tapzones{
+      position:fixed;
+      inset:55px 0 0;
+      z-index:300;
+      display:flex;
+      pointer-events:none;
+    }
+
+    .zone{
+      flex:1;
+      pointer-events:auto;
+    }
+
+    .bottom-hint{
+      position:fixed;
+      left:50%;
+      bottom:max(20px,env(safe-area-inset-bottom));
+      z-index:700;
+      transform:translateX(-50%);
+      white-space:nowrap;
+      color:rgba(255,255,255,.65);
+      font-size:10px;
+      letter-spacing:.4px;
+      pointer-events:none;
+    }
+
+    /* SHARE */
+
+    .share-btn{
+      margin-top:22px;
+      width:100%;
+      border:0;
+      border-radius:999px;
+      padding:15px;
+      background:white;
+      color:#111;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .share-message{
+      margin-top:12px;
+      font-size:11px;
+      opacity:.75;
+      min-height:16px;
+    }
+
+    /* CONFETTI */
+
+    .confetti{
+      position:fixed;
+      z-index:9999;
+      top:-20px;
+      width:9px;
+      height:18px;
+      pointer-events:none;
+      animation:fall 3.2s linear forwards;
+    }
+
+    @keyframes fall{
+      to{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:.2;
+      }
+    }
+
+    /* SWIPE FEEL */
+
+    @media(min-width:700px){
+      #app{
+        max-width:480px;
+        left:50%;
+        transform:translateX(-50%);
+        box-shadow:0 0 80px rgba(255,255,255,.08);
+      }
+
+      #progress,
+      .topbar{
+        max-width:452px;
+        left:50%;
+        transform:translateX(-50%);
+      }
+
+      .topbar{
+        left:auto;
+        right:calc(50% - 226px);
+        transform:none;
+      }
+    }
+
+  </style>
 </head>
+
 <body>
-    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt cumque quibusdam obcaecati quo incidunt accusantium! Sed autem nesciunt exercitationem consequatur veniam quae dolorem deleniti, quos repellat illo accusamus in nulla.
-    lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt cumque quibusdam obcaecati quo incidunt accusantium! Sed autem nesciunt exercitationem consequatur veniam quae dolorem deleniti, quos repellat illo accusamus in nulla.
+
+  <!-- ======================
+       INTRO
+  ======================= -->
+
+  <div id="intro">
+
+    <div class="spotify-mark"></div>
+
+    <div class="intro-kicker">
+      Your 2026 special edition
+    </div>
+
+    <div class="intro-title">
+      Your Name Day
+      <span>Wrapped.</span>
+    </div>
+
+    <div class="intro-copy">
+      Apparently your name doesn't have a Name Day.
+      Not today. Not tomorrow. Not even on some random Tuesday in November.
+      <br><br>
+      I found that unacceptable.
+    </div>
+
+    <button class="start-btn" onclick="startWrapped()">
+      See your Wrapped ♡
+    </button>
+
+    <div class="sound-note">
+      turn your sound on — I added a few things :)
+    </div>
+
+  </div>
+
+
+  <!-- ======================
+       PROGRESS
+  ======================= -->
+
+  <div id="progress"></div>
+
+
+  <div class="topbar">
+
+    <button class="icon-btn" id="soundButton" onclick="toggleSound()">
+      ♪
+    </button>
+
+    <button class="icon-btn" onclick="restartWrapped()">
+      ↻
+    </button>
+
+  </div>
+
+
+  <!-- ======================
+       SLIDES
+  ======================= -->
+
+  <main id="app">
+
+    <div class="slides">
+
+
+      <!-- 1 -->
+
+      <section class="slide bg1 active">
+
+        <div class="kicker">
+          Your Name Day Wrapped
+        </div>
+
+        <div class="big">
+          Let's look at your year.
+        </div>
+
+        <div class="body-copy">
+          Specifically, the part where the entire calendar somehow forgot to give you a Name Day.
+        </div>
+
+        <div class="pill">
+          This is already suspicious
+        </div>
+
+      </section>
+
+
+      <!-- 2 -->
+
+      <section class="slide bg2">
+
+        <div class="kicker">
+          Your biggest statistic
+        </div>
+
+        <div class="body-copy">
+          Number of official Name Days you received this year:
+        </div>
+
+        <div class="mega">
+          0
+        </div>
+
+        <div class="body-copy">
+          Honestly, embarrassing behaviour from the calendar.
+        </div>
+
+      </section>
+
+
+      <!-- 3 -->
+
+      <section class="slide bg3">
+
+        <div class="kicker">
+          We checked
+        </div>
+
+        <div class="big tight">
+          Maybe they just hid it somewhere?
+        </div>
+
+        <div class="searching">
+          <div class="search-line">Checking January... ❌</div>
+          <div class="search-line">Checking summer... ❌</div>
+          <div class="search-line">Checking weird saint days... ❌</div>
+          <div class="search-line">Checking December just in case... ❌</div>
+          <div class="search-line error">Name Day not found.</div>
+        </div>
+
+        <div class="small">
+          We even checked twice. Very professional research.
+        </div>
+
+      </section>
+
+
+      <!-- 4 PHOTO -->
+
+      <section class="slide photo-full">
+
+        <img class="photo-bg"
+             src="d402ad99-1673-4944-b662-cf76ead8c300.jpeg"
+             alt="Her">
+
+        <div class="photo-content">
+
+          <div class="kicker">
+            This makes absolutely no sense
+          </div>
+
+          <div class="photo-title">
+            Look at her.
+          </div>
+
+          <div class="body-copy">
+            And you're telling me this girl doesn't even get one day on the calendar?
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- 5 -->
+
+      <section class="slide bg5">
+
+        <div class="kicker">
+          Reasons this is unacceptable
+        </div>
+
+        <div class="big tight">
+          The evidence was overwhelming.
+        </div>
+
+        <div class="stack">
+
+          <div class="stack-card">
+            <img src="IMG_2119.jpeg" alt="">
+          </div>
+
+          <div class="stack-card">
+            <img src="IMG_2155 (1).jpeg" alt="">
+          </div>
+
+          <div class="stack-card">
+            <img src="IMG_2208.jpeg" alt="">
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- 6 PHOTO -->
+
+      <section class="slide photo-full">
+
+        <img class="photo-bg"
+             src="IMG_2676.jpeg"
+             alt="Us">
+
+        <div class="photo-content">
+
+          <div class="kicker">
+            Extremely unbiased opinion
+          </div>
+
+          <div class="photo-title">
+            You deserve your own day.
+          </div>
+
+          <div class="body-copy">
+            Source: me.
+            <br>
+            Reliability: questionable.
+            <br>
+            Confidence: 100%.
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- 7 -->
+
+      <section class="slide bg7">
+
+        <div class="kicker">
+          So I fixed it
+        </div>
+
+        <div class="big tight">
+          Creating your very own Name Day...
+        </div>
+
+        <div class="loader">
+          <span></span>
+        </div>
+
+        <div class="searching">
+          <div>Adding kisses...</div>
+          <div>Adding unlimited hugs...</div>
+          <div>Adding food privileges...</div>
+          <div>Adding boyfriend approval...</div>
+        </div>
+
+      </section>
+
+
+      <!-- 8 CERTIFICATE -->
+
+      <section class="slide bg8">
+
+        <div class="kicker">
+          Congratulations
+        </div>
+
+        <div class="certificate">
+
+          <div class="cert-small">
+            Officially unofficial certificate
+          </div>
+
+          <div class="cert-title">
+            Name Day Certificate
+          </div>
+
+          <div class="cert-text">
+            This certifies that the owner of this phone is now officially entitled to one completely invented, boyfriend-approved Name Day.
+          </div>
+
+          <div class="cert-name">
+            My favourite girl ♡
+          </div>
+
+          <div class="cert-rule"></div>
+
+          <div class="cert-details">
+            <div><b>Status:</b> APPROVED ✓</div>
+            <div><b>Valid:</b> Forever</div>
+            <div><b>Frequency:</b> Whenever I want to celebrate you</div>
+            <div><b>Benefits:</b> Hugs, kisses, food & unreasonable amounts of affection</div>
+            <div><b>Refund policy:</b> None</div>
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- 9 -->
+
+      <section class="slide bg9">
+
+        <div class="kicker">
+          One final statistic
+        </div>
+
+        <div class="big tight">
+          Days of the year I think you're worth celebrating:
+        </div>
+
+        <div class="mega" style="font-size:38vw; margin-top:28px;">
+          365
+        </div>
+
+        <div class="body-copy">
+          366 when the calendar gives me an extra one.
+        </div>
+
+      </section>
+
+
+      <!-- 10 FINAL -->
+
+      <section class="slide bg10">
+
+        <img
+          class="final-photo"
+          src="IMG_2384.jpeg"
+          alt="Us">
+
+        <div class="final-content">
+
+          <div class="heart">
+            ❤️
+          </div>
+
+          <div class="kicker">
+            Jokes aside
+          </div>
+
+          <div class="final-title">
+            The calendar may have
+            <em>forgotten you.</em>
+          </div>
+
+          <div class="final-copy">
+            I didn't.
+            <br><br>
+
+            Maybe your name doesn't have a special day written somewhere on a calendar.
+            But I don't really need one to celebrate you.
+            <br><br>
+
+            I'm just very happy that you exist on all 365 of them.
+            <br><br>
+
+            <strong>
+              Happy very unofficial Name Day, beautiful.
+              <br>
+              I love you. ❤️
+            </strong>
+          </div>
+
+          <button class="share-btn" onclick="fakeShare()">
+            Share your Wrapped
+          </button>
+
+          <div class="share-message" id="shareMessage"></div>
+
+        </div>
+
+      </section>
+
+
+    </div>
+
+  </main>
+
+
+  <!-- click zones -->
+
+  <div class="tapzones">
+    <div class="zone" onclick="previousSlide()"></div>
+    <div class="zone" onclick="nextSlide()"></div>
+  </div>
+
+  <div class="bottom-hint">
+    tap left / right to navigate
+  </div>
+
+
+  <script>
+
+    /* ================================
+       STATE
+    ================================ */
+
+    const slides = [...document.querySelectorAll(".slide")];
+    const progress = document.getElementById("progress");
+
+    let current = 0;
+    let started = false;
+    let soundEnabled = true;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    /* ================================
+       PROGRESS BARS
+    ================================ */
+
+    slides.forEach((_,i)=>{
+
+      const seg = document.createElement("div");
+      seg.className = "progress-seg";
+
+      const fill = document.createElement("div");
+      fill.className = "progress-fill";
+
+      seg.appendChild(fill);
+      progress.appendChild(seg);
+
+    });
+
+    function updateProgress(){
+
+      const bars = [...document.querySelectorAll(".progress-seg")];
+
+      bars.forEach((bar,i)=>{
+
+        bar.classList.remove("done","active");
+
+        if(i < current){
+          bar.classList.add("done");
+        }
+
+        if(i === current){
+          bar.classList.add("active");
+        }
+
+      });
+
+    }
+
+
+    /* ================================
+       START
+    ================================ */
+
+    function startWrapped(){
+
+      started = true;
+
+      document.getElementById("intro").classList.add("hide");
+
+      initAudio();
+
+      sparkleSound();
+
+      updateProgress();
+
+      animateCurrent();
+
+      setTimeout(()=>{
+        burstConfetti(22);
+      },500);
+
+    }
+
+
+    /* ================================
+       SLIDES
+    ================================ */
+
+    function showSlide(index){
+
+      if(!started) return;
+
+      if(index < 0){
+        index = 0;
+      }
+
+      if(index >= slides.length){
+        index = slides.length - 1;
+      }
+
+      if(index === current) return;
+
+      const old = slides[current];
+
+      old.classList.remove("active");
+      old.classList.add("leaving");
+
+      setTimeout(()=>{
+        old.classList.remove("leaving");
+      },500);
+
+      current = index;
+
+      slides[current].classList.add("active");
+
+      clickSound();
+
+      updateProgress();
+
+      animateCurrent();
+
+      if(current === 7){
+        setTimeout(()=>{
+          sparkleSound();
+          burstConfetti(70);
+        },700);
+      }
+
+      if(current === 9){
+        setTimeout(()=>{
+          heartbeatSound();
+        },500);
+      }
+
+    }
+
+    function nextSlide(){
+      showSlide(current + 1);
+    }
+
+    function previousSlide(){
+      showSlide(current - 1);
+    }
+
+    function restartWrapped(){
+
+      if(!started){
+        startWrapped();
+        return;
+      }
+
+      current = 0;
+
+      slides.forEach(slide=>{
+        slide.classList.remove("active","leaving");
+      });
+
+      slides[0].classList.add("active");
+
+      updateProgress();
+
+      clickSound();
+
+    }
+
+
+    /* ================================
+       SPECIAL ANIMATIONS
+    ================================ */
+
+    function animateCurrent(){
+
+      if(current === 2){
+
+        const lines =
+          slides[current].querySelectorAll(".search-line");
+
+        lines.forEach(line=>{
+          line.classList.remove("show");
+        });
+
+        lines.forEach((line,i)=>{
+
+          setTimeout(()=>{
+
+            line.classList.add("show");
+
+            if(soundEnabled){
+              tinyTick();
+            }
+
+          },500 + i*600);
+
+        });
+
+      }
+
+    }
+
+
+    /* ================================
+       SWIPE
+    ================================ */
+
+    document.addEventListener("touchstart",e=>{
+
+      touchStartX = e.changedTouches[0].screenX;
+
+    },{passive:true});
+
+    document.addEventListener("touchend",e=>{
+
+      touchEndX = e.changedTouches[0].screenX;
+
+      const diff = touchEndX - touchStartX;
+
+      if(Math.abs(diff) > 65){
+
+        if(diff < 0){
+          nextSlide();
+        }else{
+          previousSlide();
+        }
+
+      }
+
+    },{passive:true});
+
+
+    /* ================================
+       KEYBOARD
+    ================================ */
+
+    document.addEventListener("keydown",e=>{
+
+      if(e.key === "ArrowRight"){
+        nextSlide();
+      }
+
+      if(e.key === "ArrowLeft"){
+        previousSlide();
+      }
+
+    });
+
+
+    /* ================================
+       FAKE SHARE
+    ================================ */
+
+    function fakeShare(){
+
+      const msg =
+        document.getElementById("shareMessage");
+
+      clickSound();
+
+      msg.innerHTML =
+        `
+        Sharing disabled.<br>
+        <b>This one belongs only to us. ❤️</b>
+        `;
+
+      burstConfetti(18);
+
+    }
+
+
+    /* ================================
+       CONFETTI
+    ================================ */
+
+    function burstConfetti(amount=40){
+
+      const colors = [
+        "#1ed760",
+        "#ff4b91",
+        "#ffd52e",
+        "#ffffff",
+        "#8855ff",
+        "#ff843c"
+      ];
+
+      for(let i=0;i<amount;i++){
+
+        setTimeout(()=>{
+
+          const piece = document.createElement("div");
+
+          piece.className="confetti";
+
+          piece.style.left =
+            Math.random()*100+"vw";
+
+          piece.style.background =
+            colors[
+              Math.floor(Math.random()*colors.length)
+            ];
+
+          piece.style.transform =
+            `rotate(${Math.random()*360}deg)`;
+
+          piece.style.animationDuration =
+            (2.3+Math.random()*2)+"s";
+
+          document.body.appendChild(piece);
+
+          setTimeout(()=>{
+            piece.remove();
+          },4500);
+
+        },i*20);
+
+      }
+
+    }
+
+
+    /* ================================
+       WEB AUDIO
+       No audio file needed
+    ================================ */
+
+    let audioCtx = null;
+
+    function initAudio(){
+
+      if(!audioCtx){
+
+        audioCtx =
+          new(
+            window.AudioContext ||
+            window.webkitAudioContext
+          )();
+
+      }
+
+      if(audioCtx.state === "suspended"){
+        audioCtx.resume();
+      }
+
+    }
+
+
+    function tone(
+      freq,
+      duration,
+      type="sine",
+      volume=.05,
+      delay=0
+    ){
+
+      if(!soundEnabled) return;
+
+      initAudio();
+
+      const osc =
+        audioCtx.createOscillator();
+
+      const gain =
+        audioCtx.createGain();
+
+      osc.type = type;
+
+      osc.frequency.value = freq;
+
+      gain.gain.setValueAtTime(
+        0,
+        audioCtx.currentTime + delay
+      );
+
+      gain.gain.linearRampToValueAtTime(
+        volume,
+        audioCtx.currentTime + delay + .01
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        .0001,
+        audioCtx.currentTime + delay + duration
+      );
+
+      osc.connect(gain);
+
+      gain.connect(audioCtx.destination);
+
+      osc.start(
+        audioCtx.currentTime + delay
+      );
+
+      osc.stop(
+        audioCtx.currentTime + delay + duration + .02
+      );
+
+    }
+
+
+    function clickSound(){
+
+      tone(270,.07,"sine",.035);
+      tone(420,.08,"sine",.025,.035);
+
+    }
+
+
+    function tinyTick(){
+
+      tone(560,.035,"triangle",.025);
+
+    }
+
+
+    function sparkleSound(){
+
+      tone(660,.22,"sine",.035);
+      tone(880,.25,"sine",.03,.09);
+      tone(1100,.3,"sine",.025,.18);
+
+    }
+
+
+    function heartbeatSound(){
+
+      tone(85,.15,"sine",.09);
+      tone(75,.18,"sine",.07,.18);
+
+      setTimeout(()=>{
+
+        tone(85,.15,"sine",.09);
+        tone(75,.18,"sine",.07,.18);
+
+      },720);
+
+    }
+
+
+    function toggleSound(){
+
+      soundEnabled = !soundEnabled;
+
+      const button =
+        document.getElementById("soundButton");
+
+      button.textContent =
+        soundEnabled ? "♪" : "×";
+
+      if(soundEnabled){
+        sparkleSound();
+      }
+
+    }
+
+  </script>
+
 </body>
 </html>
